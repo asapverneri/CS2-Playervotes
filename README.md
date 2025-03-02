@@ -33,7 +33,6 @@
 
 - Install latest [CounterStrike Sharp](https://github.com/roflmuffin/CounterStrikeSharp) & [Metamod:Source](https://www.sourcemm.net/downloads.php/?branch=master)
 - Download the latest release from the releases tab and copy it into the csgo folder.
-You might find maps for this gamemode [Here](https://steamcommunity.com/workshop/browse/?appid=730&searchtext=scout&childpublishedfileid=0&browsesort=textsearch&section=)
 
 **Example config:**
 ```json
