@@ -1,0 +1,9 @@
+{
+  "cantvote": "{green}[Playervotes] {default}Pelaajalla jota yrität votea on immunity.",
+  "voteurself": "{green}[Playervotes] {default}Et voi votea itseäsi.",
+  "voteprogress": "{green}[Playervotes] {lime}{0}{default} haluaa vote{1} pelaajan {red}{2}{default}. ({3}/{4} votea)",
+
+  "votebanned": "{green}[Playervotes] {default}{0} on votebannitty ({1}min).",
+  "votekicked": "{green}[Playervotes] {default}{0} on votekickattu.",
+  "votemuted": "{green}[Playervotes] {default}{0} on votemutettu ({1}min)."
+}

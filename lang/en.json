@@ -1,0 +1,9 @@
+{
+  "cantvote": "{green}[Playervotes] {default}Player you've selected has immunity.",
+  "voteurself": "{green}[Playervotes] {default}You can't vote yourself..",
+  "voteprogress": "{green}[Playervotes] {lime}{0}{default} wants to vote{1} player {red}{2}{default}. ({3}/{4} vote(s))",
+
+  "votebanned": "{green}[Playervotes] {default}{0} has been votebanned for {1} minutes.",
+  "votekicked": "{green}[Playervotes] {default}{0} has been votekicked.",
+  "votemuted": "{green}[Playervotes] {default}{0} has been votemuted for {1} minutes."
+}
