@@ -3,7 +3,7 @@
   <h3>🎮 CS2 Playervotes</h3>
   <p>Lightweight and efficient voting system for CS2 without anything pointless, allowing players to initiate votes for kicking, banning, and muting players. 
   <br>The plugin ensures fair play by requiring a configurable percentage of votes to pass before an action is taken.
-  <br>Plugin uses commands css_ban, css_kick and css_mute so actions are stored into your site that shows punishments.</p>
+  <br>Plugin uses commands css_ban, css_kick, css_mute, css_gag so actions are stored into your site that shows punishments.</p>
 </div>
 <div align="center">
   <img src="https://img.shields.io/github/v/tag/asapverneri/CS2-Playervotes?style=for-the-badge&label=Version" alt="GitHub tag (with filter)" />
@@ -21,6 +21,7 @@
 <p>✅ Votekick</p>
 <p>✅ Voteban</p>
 <p>✅ Votemute</p>
+<p>✅ Votegag</p>
 <p>✅ Immunity for VIPs</p>
 <p>✅ Configurable Vote Threshold</p>
 <p>✅ Easy usage</p>
@@ -47,6 +48,9 @@
   "Line3": "----------------------------------",
   "KickReason": "votekicked",
   "Line4": "----------------------------------",
+  "GagDuration": 120,
+  "GagReason": "votegagged",
+  "Line5": "----------------------------------",
   "VoteImmunity": "@css/vip, @css/vvip",
   "ConfigVersion": 1
 }
@@ -60,6 +64,7 @@
 | !votemute       | Command for listing players and voting for mute                      | -           |
 | !voteban        | Command for listing players and voting for ban                       | -           |
 | !votekick       | Command for listing players and voting for kick                      | -           |
+| !votegag        | Command for listing players and voting for gag                       | -           |
 
 ---
 

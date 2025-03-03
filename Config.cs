@@ -31,6 +31,14 @@ namespace Playervotes
 
         public string Line4 { get; set; } = "----------------------------------";
 
+        [JsonPropertyName("GagDuration")]
+        public int GagDuration { get; set; } = 60;
+
+        [JsonPropertyName("GagReason")]
+        public string GagReason { get; set; } = "votegagged";
+
+        public string Line5 { get; set; } = "----------------------------------";
+
         [JsonPropertyName("VoteImmunity")]
         public string VoteImmunity { get; set; } = "@css/vip, @css/vvip";
     }

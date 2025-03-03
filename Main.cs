@@ -12,13 +12,14 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.0";
+    public override string ModuleVersion => "1.1";
 
     public PlayervotesConfig Config { get; set; } = new();
 
     private readonly Dictionary<ulong, int> voteKickCounts = new();
     private readonly Dictionary<ulong, int> voteBanCounts = new();
     private readonly Dictionary<ulong, int> voteMuteCounts = new();
+    private readonly Dictionary<ulong, int> voteGagCounts = new();
 
     public void OnConfigParsed(PlayervotesConfig config)
 	{
@@ -32,6 +33,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         AddCommand($"css_votekick", "Start votekick", OnVotekick);
         AddCommand($"css_voteban", "Start voteban", OnVoteban);
         AddCommand($"css_votemute", "Start votemute", OnVotemute);
+        AddCommand($"css_votegag", "Start votegag", OnVotegag);
 
     }
 
@@ -92,6 +94,25 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         MenuManager.OpenCenterHtmlMenu(this, player, menu);
     }
 
+    public void OnVotegag(CCSPlayerController? player, CommandInfo command)
+    {
+        if (player == null || !player.IsValid)
+            return;
+
+        CenterHtmlMenu menu = new CenterHtmlMenu("Votegag Menu", this);
+
+        foreach (var target in GetActivePlayers())
+        {
+            menu.AddMenuOption(target.PlayerName, (client, option) => {
+                StartVote(client, target, "gag");
+                MenuManager.CloseActiveMenu(player);
+            });
+        }
+
+        menu.ExitButton = true;
+        MenuManager.OpenCenterHtmlMenu(this, player, menu);
+    }
+
     private void StartVote(CCSPlayerController voter, CCSPlayerController target, string action)
     {
         if (target.SteamID == voter.SteamID)
@@ -114,6 +135,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             "ban" => voteBanCounts,
             "mute" => voteMuteCounts,
             "kick" => voteKickCounts,
+            "gag" => voteGagCounts,
             _ => throw new ArgumentException("Invalid action")
         };
 
@@ -143,6 +165,11 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             {
                 Server.PrintToChatAll($"{Localizer["votekicked", target.PlayerName]}");
                 Server.ExecuteCommand($"css_kick #{target.UserId} \"{Config.KickReason}\"");
+            }
+            else if (action == "gag")
+            {
+                Server.PrintToChatAll($"{Localizer["votegagged", target.PlayerName]}");
+                Server.ExecuteCommand($"css_gag #{target.UserId} {Config.GagDuration} \"{Config.GagReason}\"");
             }
             voteDictionary.Remove(target.SteamID);
         }
