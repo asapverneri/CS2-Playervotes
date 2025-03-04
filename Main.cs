@@ -12,14 +12,14 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.1";
+    public override string ModuleVersion => "1.2";
 
     public PlayervotesConfig Config { get; set; } = new();
 
-    private readonly Dictionary<ulong, int> voteKickCounts = new();
-    private readonly Dictionary<ulong, int> voteBanCounts = new();
-    private readonly Dictionary<ulong, int> voteMuteCounts = new();
-    private readonly Dictionary<ulong, int> voteGagCounts = new();
+    private readonly Dictionary<ulong, HashSet<ulong>> voteKickCounts = new();
+    private readonly Dictionary<ulong, HashSet<ulong>> voteBanCounts = new();
+    private readonly Dictionary<ulong, HashSet<ulong>> voteMuteCounts = new();
+    private readonly Dictionary<ulong, HashSet<ulong>> voteGagCounts = new();
 
     public void OnConfigParsed(PlayervotesConfig config)
 	{
@@ -141,15 +141,22 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
 
         if (!voteDictionary.ContainsKey(target.SteamID))
         {
-            voteDictionary[target.SteamID] = 0;
+            voteDictionary[target.SteamID] = new HashSet<ulong>();
         }
 
-        voteDictionary[target.SteamID]++;
+        if (voteDictionary[target.SteamID].Contains(voter.SteamID))
+        {
+            voter.PrintToChat($"{Localizer["alreadyvoted", action]}");
+            return;
+        }
 
+        voteDictionary[target.SteamID].Add(voter.SteamID);
+
+        int currentVotes = voteDictionary[target.SteamID].Count;
         int requiredVotes = (int)System.Math.Ceiling((Config.RequiredVotePercentage / 100) * GetActivePlayers().Count);
         Server.PrintToChatAll($"{Localizer["voteprogress", voter.PlayerName, action, target.PlayerName, voteDictionary[target.SteamID], requiredVotes]}");
 
-        if (voteDictionary[target.SteamID] >= requiredVotes)
+        if (currentVotes >= requiredVotes)
         {
             if (action == "ban")
             {

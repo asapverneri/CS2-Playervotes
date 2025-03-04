@@ -14,7 +14,7 @@ namespace Playervotes
         public int MuteDuration { get; set; } = 60;
 
         [JsonPropertyName("MuteReason")]
-        public string MuteReason { get; set; } = "votemuted";
+        public string MuteReason { get; set; } = "Votemuted";
 
         public string Line2 { get; set; } = "----------------------------------";
 
@@ -22,12 +22,12 @@ namespace Playervotes
         public int BanDuration { get; set; } = 120;
 
         [JsonPropertyName("BanReason")]
-        public string BanReason { get; set; } = "votebanned";
+        public string BanReason { get; set; } = "Votebanned";
 
         public string Line3 { get; set; } = "----------------------------------";
 
         [JsonPropertyName("KickReason")]
-        public string KickReason { get; set; } = "votekicked";
+        public string KickReason { get; set; } = "Votekicked";
 
         public string Line4 { get; set; } = "----------------------------------";
 
@@ -35,7 +35,7 @@ namespace Playervotes
         public int GagDuration { get; set; } = 60;
 
         [JsonPropertyName("GagReason")]
-        public string GagReason { get; set; } = "votegagged";
+        public string GagReason { get; set; } = "Votegagged";
 
         public string Line5 { get; set; } = "----------------------------------";
 
