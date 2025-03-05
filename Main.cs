@@ -12,7 +12,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.2";
+    public override string ModuleVersion => "1.3";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -154,7 +154,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
 
         int currentVotes = voteDictionary[target.SteamID].Count;
         int requiredVotes = (int)System.Math.Ceiling((Config.RequiredVotePercentage / 100) * GetActivePlayers().Count);
-        Server.PrintToChatAll($"{Localizer["voteprogress", voter.PlayerName, action, target.PlayerName, voteDictionary[target.SteamID], requiredVotes]}");
+        Server.PrintToChatAll($"{Localizer["voteprogress", voter.PlayerName, action, target.PlayerName, currentVotes, requiredVotes]}");
 
         if (currentVotes >= requiredVotes)
         {
