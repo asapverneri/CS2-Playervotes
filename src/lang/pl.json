@@ -4,7 +4,7 @@
   "voteprogress": "{green}[Playervotes] {lime}{0}{default} chce zagłosować na gracza {red}{2}{default}. ({3}/{4} głosów)",
   "alreadyvoted": "{green}[Playervotes] {default}Już zagłosowałeś na gracza {red}{2}{default}.",
 
-  "votebanned": "{green}[Playervotes] {default}{0}  został zbanowany w wyniku głosowania na {1} minut.",
+  "votebanned": "{green}[Playervotes] {default}{0} został zbanowany w wyniku głosowania na {1} minut.",
   "votekicked": "{green}[Playervotes] {default}{0} został wyrzucony w wyniku głosowania.",
   "votemuted": "{green}[Playervotes] {default}{0} został wyciszony w wyniku głosowania na {1} minut.",
   "votegagged": "{green}[Playervotes] {default}{0} został zakneblowany w wyniku głosowania na {1} minut.",
