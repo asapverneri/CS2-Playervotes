@@ -7,5 +7,6 @@
   "votebanned": "{green}[Playervotes] {default}{0} has been votebanned for {1} minutes.",
   "votekicked": "{green}[Playervotes] {default}{0} has been votekicked.",
   "votemuted": "{green}[Playervotes] {default}{0} has been votemuted for {1} minutes.",
-  "votegagged": "{green}[Playervotes] {default}{0} has been votegagged for {1} minutes."
+  "votegagged": "{green}[Playervotes] {default}{0} has been votegagged for {1} minutes.",
+  "votesilenced": "{green}[Playervotes] {default}{0} has been votesilenced for {1} minutes."
 }

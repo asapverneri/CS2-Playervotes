@@ -3,7 +3,7 @@
   <h3>🎮 CS2 Playervotes</h3>
   <p>Lightweight and efficient voting system for CS2 without anything pointless, allowing players to initiate votes for kicking, banning, and muting players. 
   <br>The plugin ensures fair play by requiring a configurable percentage of votes to pass before an action is taken.
-  <br>Plugin uses commands css_ban, css_kick, css_mute, css_gag so actions are stored into your site that shows punishments.</p>
+  <br>Plugin uses commands like css_ban, css_kick, css_mute so actions are stored into your site that shows punishments.</p>
 </div>
 <div align="center">
   <img src="https://img.shields.io/github/v/tag/asapverneri/CS2-Playervotes?style=for-the-badge&label=Version" alt="GitHub tag (with filter)" />
@@ -22,6 +22,7 @@
 <p>✅ Voteban</p>
 <p>✅ Votemute</p>
 <p>✅ Votegag</p>
+<p>✅ Votesilence</p>
 <p>✅ Immunity for VIPs</p>
 <p>✅ Configurable Vote Threshold</p>
 <p>✅ Easy usage</p>
@@ -33,24 +34,38 @@
 ## 📦 Installion
 
 - Install latest [CounterStrike Sharp](https://github.com/roflmuffin/CounterStrikeSharp) & [Metamod:Source](https://www.sourcemm.net/downloads.php/?branch=master)
+- Install all requirements listed below.
 - Download the latest release from the releases tab and copy it into the csgo folder.
+
+**Requirements**
+- [MenuManager](https://github.com/NickFox007/MenuManagerCS2)
+- [PlayerSettings](https://github.com/NickFox007/PlayerSettingsCS2) - MenuManager needs this
+- [AnyBaseLibCS2](https://github.com/NickFox007/AnyBaseLibCS2) - PlayerSettings needs this
 
 **Example config:**
 ```json
 {
   "RequiredVotePercentage": 80,
   "Line": "----------------------------------",
+  "EnableVotemute": true,
   "MuteDuration": 60,
   "MuteReason": "votemuted",
   "Line2": "----------------------------------",
+  "EnableVoteban": true,
   "BanDuration": 120,
   "BanReason": "votebanned",
   "Line3": "----------------------------------",
+  "EnableVotekick": true,
   "KickReason": "votekicked",
   "Line4": "----------------------------------",
+  "EnableVotegag": true,
   "GagDuration": 120,
   "GagReason": "votegagged",
   "Line5": "----------------------------------",
+  "EnableVotesilence": true,
+  "SilenceDuration": 120,
+  "SilenceReason": "votesilenced",
+  "Line6": "----------------------------------",
   "VoteImmunity": "@css/vip, @css/vvip",
   "ConfigVersion": 1
 }
@@ -65,6 +80,7 @@
 | !voteban        | Command for listing players and voting for ban                       | -           |
 | !votekick       | Command for listing players and voting for kick                      | -           |
 | !votegag        | Command for listing players and voting for gag                       | -           |
+| !votesilence    | Command for listing players and voting for silence                   | -           |
 
 ---
 

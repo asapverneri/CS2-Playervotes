@@ -7,5 +7,6 @@
   "votebanned": "{green}[Playervotes] {default}{0} on votebannitty ({1}min).",
   "votekicked": "{green}[Playervotes] {default}{0} on votekickattu.",
   "votemuted": "{green}[Playervotes] {default}{0} on votemutettu ({1}min).",
-  "votegagged": "{green}[Playervotes] {default}{0} on votegagitty ({1}min)."
+  "votegagged": "{green}[Playervotes] {default}{0} on votegagitty ({1}min).",
+  "votesilenced": "{green}[Playervotes] {default}{0} on hiljennetty votella ({1}min)."
 }

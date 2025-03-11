@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
@@ -10,6 +10,12 @@
     <ItemGroup>
         <PackageReference Include="CounterStrikeSharp.API" Version="*" />
     </ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="MenuManagerApi">
+			<HintPath>MenuManagerApi.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
     <ItemGroup>
         <None Update="lang\**\*.*" CopyToOutputDirectory="PreserveNewest" />
