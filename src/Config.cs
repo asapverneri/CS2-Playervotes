@@ -5,6 +5,9 @@ namespace Playervotes
 {
     public class PlayervotesConfig : BasePluginConfig
     {
+        [JsonPropertyName("Menutype")]
+        public string Menutype { get; set; } = "all";
+
         [JsonPropertyName("RequiredVotePercentage")]
         public float RequiredVotePercentage { get; set; } = 80.0f;
 

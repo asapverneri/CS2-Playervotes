@@ -5,6 +5,7 @@ using CounterStrikeSharp.API.Modules.Commands;
 using Microsoft.Extensions.Logging;
 using MenuManager;
 using CounterStrikeSharp.API.Core.Capabilities;
+using CounterStrikeSharp.API.Modules.Menu;
 
 namespace Playervotes;
 
@@ -13,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.4";
+    public override string ModuleVersion => "1.5";
 
     private IMenuApi? _api;
     private readonly PluginCapability<IMenuApi?> _pluginCapability = new("menu:nfcore");
@@ -27,7 +28,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     private readonly Dictionary<ulong, HashSet<ulong>> voteSilenceCounts = new();
 
     public void OnConfigParsed(PlayervotesConfig config)
-	{
+    {
         Config = config;
     }
 
@@ -35,20 +36,25 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     {
         Logger.LogInformation($"Loaded (version {ModuleVersion})");
 
-        if (Config.EnableVotekick)
+        if (Config.EnableVotekick && !string.IsNullOrWhiteSpace(Config.Menutype))
         AddCommand($"css_votekick", "Start votekick", OnVotekick);
 
-        if (Config.EnableVoteban)
+        if (Config.EnableVoteban && !string.IsNullOrWhiteSpace(Config.Menutype))
         AddCommand($"css_voteban", "Start voteban", OnVoteban);
 
-        if (Config.EnableVotemute)
+        if (Config.EnableVotemute && !string.IsNullOrWhiteSpace(Config.Menutype))
         AddCommand($"css_votemute", "Start votemute", OnVotemute);
 
-        if (Config.EnableVotegag)
+        if (Config.EnableVotegag && !string.IsNullOrWhiteSpace(Config.Menutype))
         AddCommand($"css_votegag", "Start votegag", OnVotegag);
 
-        if (Config.EnableVotesilence)
+        if (Config.EnableVotesilence && !string.IsNullOrWhiteSpace(Config.Menutype))
         AddCommand($"css_votesilence", "Start votesilence", OnVotesilence);
+
+        if (string.IsNullOrWhiteSpace(Config.Menutype))
+        {
+            Logger.LogError("Commands disabled, menutype configuration is incorrect. Check the configuration file.");
+        }
 
     }
     public override void OnAllPluginsLoaded(bool hotReload)
@@ -62,11 +68,13 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (_api == null || player == null || !player.IsValid)
             return;
 
-        var menu = _api.GetMenu("Votekick");
+        var menu = GetVoteMenu("Votekick");
+        if (menu == null)
+            return;
 
         foreach (var target in GetActivePlayers())
         {
-            menu.AddMenuOption(target.PlayerName, (client, option) => 
+            menu.AddMenuOption(target.PlayerName, (client, option) =>
             {
                 StartVote(client, target, "kick");
                 _api.CloseMenu(player);
@@ -81,7 +89,9 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (_api == null || player == null || !player.IsValid)
             return;
 
-        var menu = _api.GetMenu("Voteban");
+        var menu = GetVoteMenu("Voteban");
+        if (menu == null)
+            return;
 
         foreach (var target in GetActivePlayers())
         {
@@ -100,7 +110,9 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (_api == null || player == null || !player.IsValid)
             return;
 
-        var menu = _api.GetMenu("Votemute");
+        var menu = GetVoteMenu("Votemute");
+        if (menu == null)
+            return;
 
         foreach (var target in GetActivePlayers())
         {
@@ -119,7 +131,9 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (_api == null || player == null || !player.IsValid)
             return;
 
-        var menu = _api.GetMenu("Votegag");
+        var menu = GetVoteMenu("Votegag");
+        if (menu == null)
+            return;
 
         foreach (var target in GetActivePlayers())
         {
@@ -137,7 +151,9 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (_api == null || player == null || !player.IsValid)
             return;
 
-        var menu = _api.GetMenu("Votesilence");
+        var menu = GetVoteMenu("Votesilence");
+        if (menu == null)
+            return;
 
         foreach (var target in GetActivePlayers())
         {
@@ -228,7 +244,21 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     private static List<CCSPlayerController> GetActivePlayers()
     {
         return Utilities.GetPlayers()
-            .Where(p => !p.IsHLTV && p.PlayerPawn.IsValid && p.Connected == PlayerConnectedState.PlayerConnected)
+            .Where(p => !p.IsHLTV && !p.IsBot && p.PlayerPawn.IsValid && p.Connected == PlayerConnectedState.PlayerConnected)
             .ToList();
+    }
+    private IMenu? GetVoteMenu(string menuName)
+    {
+        if (_api == null)
+            return null;
+
+        return Config.Menutype switch
+        {
+            "chat" => _api.GetMenuForcetype(menuName, MenuType.ChatMenu),
+            "center" => _api.GetMenuForcetype(menuName, MenuType.CenterMenu),
+            "wasd" => _api.GetMenuForcetype(menuName, MenuType.ButtonMenu),
+            "all" => _api.GetMenu(menuName),
+            _ => null
+        };
     }
 }

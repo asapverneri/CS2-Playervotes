@@ -45,6 +45,7 @@
 **Example config:**
 ```json
 {
+  "Menutype": "all",    // chat(Force chat), center(Force centerhtml), wasd(Force wasd), all(Allow players to select via !menus)
   "RequiredVotePercentage": 80,
   "Line": "----------------------------------",
   "EnableVotemute": true,
