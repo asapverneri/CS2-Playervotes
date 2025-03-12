@@ -1,9 +1,12 @@
 {
-  "cantvote": "{green}[Playervotes] {default}Wybrany przez ciebie gracz ma immunitet.",
+  "cantvote": "{green}[Playervotes] {default}Wybrany gracz ma immunitet.",
   "voteurself": "{green}[Playervotes] {default}Nie możesz głosować na siebie.",
-  "voteprogress": "{green}[Playervotes] {lime}{0}{default} chce zagłosować na{1} gracza {red}{2}{default}. ({3}/{4} głos(y))",
+  "voteprogress": "{green}[Playervotes] {lime}{0}{default} chce zagłosować na {1} gracza {red}{2}{default}. ({3}/{4} głos(y))",
+  "alreadyvoted": "{green}[Playervotes] {default}Już zagłosowałeś na {1} gracza {red}{2}{default}.",
 
-  "votebanned": "{green}[Playervotes] {default}{0} został zbanowany w wyniku głosowania na {1} minut.",
-  "votekicked": "{green}[Playervotes] {default}{0} został wyrzucony w wyniku głosowania.",
-  "votemuted": "{green}[Playervotes] {default}{0} został wyciszony w wyniku głosowania na {1} minut."
+  "votebanned": "{green}[Playervotes] {default}{0} został zbanowany na {1} minut.",
+  "votekicked": "{green}[Playervotes] {default}{0} został wyrzucony.",
+  "votemuted": "{green}[Playervotes] {default}{0} został wyciszony na {1} minut.",
+  "votegagged": "{green}[Playervotes] {default}{0} został zakneblowany na {1} minut.",
+  "votesilenced": "{green}[Playervotes] {default}{0} został uciszony na {1} minut."
 }
