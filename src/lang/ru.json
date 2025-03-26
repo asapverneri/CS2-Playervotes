@@ -1,7 +1,7 @@
 {
   "cantvote": "{green}[Playervotes] {default}У выбранного игрока есть иммунитет.",
   "voteurself": "{green}[Playervotes] {default}Вы не можете голосовать за самого себя.",
-  "voteprogress": "{green}[Playervotes] {lime}{0}{default} хочет проголосовать{1} за игрока {red}{2}{default}. ({3}/{4} голосов)",
+  "voteprogress": "{green}[Playervotes] {lime}{0}{default} хочет проголосовать за {1} игрока {red}{2}{default}. ({3}/{4} голосов)",
   "alreadyvoted": "{green}[Playervotes] {default}Вы уже проголосовали за {1} игрока {red}{2}{default}.",
   
   "votebanned": "{green}[Playervotes] {default}{0} был(а) забанен(а) голосованием на {1} минут(ы).",
