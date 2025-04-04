@@ -3,9 +3,9 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using Microsoft.Extensions.Logging;
-using MenuManager;
-using CounterStrikeSharp.API.Core.Capabilities;
-using CounterStrikeSharp.API.Modules.Menu;
+using CS2MenuManager.API;
+using CS2MenuManager.API.Menu;
+using CS2MenuManager.API.Class;
 
 namespace Playervotes;
 
@@ -14,10 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.5";
-
-    private IMenuApi? _api;
-    private readonly PluginCapability<IMenuApi?> _pluginCapability = new("menu:nfcore");
+    public override string ModuleVersion => "1.6";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -57,114 +54,110 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         }
 
     }
-    public override void OnAllPluginsLoaded(bool hotReload)
-    {
-        _api = _pluginCapability.Get();
-        if (_api == null) Console.WriteLine("MenuManager not found.");
-    }
 
     public void OnVotekick(CCSPlayerController? player, CommandInfo command)
     {
-        if (_api == null || player == null || !player.IsValid)
+        if (player == null || !player.IsValid)
             return;
 
-        var menu = GetVoteMenu("Votekick");
+
+        var menu = CreateMenu("Votekick");
         if (menu == null)
             return;
 
         foreach (var target in GetActivePlayers())
         {
-            menu.AddMenuOption(target.PlayerName, (client, option) =>
+            menu.AddItem(target.PlayerName, (client, option) =>
             {
                 StartVote(client, target, "kick");
-                _api.CloseMenu(player);
+                MenuManager.CloseActiveMenu(player);
             });
         }
 
-        menu.Open(player);
+        menu.Display(player, 10);
     }
 
     public void OnVoteban(CCSPlayerController? player, CommandInfo command)
     {
-        if (_api == null || player == null || !player.IsValid)
+        if (player == null || !player.IsValid)
             return;
 
-        var menu = GetVoteMenu("Voteban");
+        var menu = CreateMenu("Voteban");
         if (menu == null)
             return;
 
         foreach (var target in GetActivePlayers())
         {
-            menu.AddMenuOption(target.PlayerName, (client, option) =>
+            menu.AddItem(target.PlayerName, (client, option) =>
             {
                 StartVote(client, target, "ban");
-                _api.CloseMenu(player);
+                MenuManager.CloseActiveMenu(player);
             });
         }
 
-        menu.Open(player);
+        menu.Display(player, 10);
     }
 
     public void OnVotemute(CCSPlayerController? player, CommandInfo command)
     {
-        if (_api == null || player == null || !player.IsValid)
+        if (player == null || !player.IsValid)
             return;
 
-        var menu = GetVoteMenu("Votemute");
+        var menu = CreateMenu("Votemute");
         if (menu == null)
             return;
 
         foreach (var target in GetActivePlayers())
         {
-            menu.AddMenuOption(target.PlayerName, (client, option) =>
+            menu.AddItem(target.PlayerName, (client, option) =>
             {
                 StartVote(client, target, "mute");
-                _api.CloseMenu(player);
+                MenuManager.CloseActiveMenu(player);
             });
         }
 
-        menu.Open(player);
+        menu.Display(player, 10);
     }
 
     public void OnVotegag(CCSPlayerController? player, CommandInfo command)
     {
-        if (_api == null || player == null || !player.IsValid)
+        if (player == null || !player.IsValid)
             return;
 
-        var menu = GetVoteMenu("Votegag");
+        var menu = CreateMenu("Votegag");
         if (menu == null)
             return;
 
         foreach (var target in GetActivePlayers())
         {
-            menu.AddMenuOption(target.PlayerName, (client, option) =>
+            menu.AddItem(target.PlayerName, (client, option) =>
             {
                 StartVote(client, target, "gag");
-                _api.CloseMenu(player);
+                MenuManager.CloseActiveMenu(player);
             });
         }
 
-        menu.Open(player);
+        menu.Display(player, 10);
     }
     public void OnVotesilence(CCSPlayerController? player, CommandInfo command)
     {
-        if (_api == null || player == null || !player.IsValid)
+        if (player == null || !player.IsValid)
             return;
 
-        var menu = GetVoteMenu("Votesilence");
+        var menu = CreateMenu("Votesilence");
         if (menu == null)
             return;
 
         foreach (var target in GetActivePlayers())
         {
-            menu.AddMenuOption(target.PlayerName, (client, option) =>
+            menu.AddItem(target.PlayerName, (client, option) =>
             {
                 StartVote(client, target, "silence");
-                _api.CloseMenu(player);
+                MenuManager.CloseActiveMenu(player);
             });
         }
 
-        menu.Open(player);
+        menu.Display(player, 10);
     }
 
     private void StartVote(CCSPlayerController voter, CCSPlayerController target, string action)
@@ -247,17 +240,16 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             .Where(p => !p.IsHLTV && !p.IsBot && p.PlayerPawn.IsValid && p.Connected == PlayerConnectedState.PlayerConnected)
             .ToList();
     }
-    private IMenu? GetVoteMenu(string menuName)
-    {
-        if (_api == null)
-            return null;
 
+    private BaseMenu? CreateMenu(string menuName)
+    {
         return Config.Menutype switch
         {
-            "chat" => _api.GetMenuForcetype(menuName, MenuType.ChatMenu),
-            "center" => _api.GetMenuForcetype(menuName, MenuType.CenterMenu),
-            "wasd" => _api.GetMenuForcetype(menuName, MenuType.ButtonMenu),
-            "all" => _api.GetMenu(menuName),
+            "ChatMenu" => new ChatMenu(menuName, this),
+            "ConsoleMenu" => new ConsoleMenu(menuName, this),
+            "CenterHtml" => new CenterHtmlMenu(menuName, this),
+            "WasdMenu" => new WasdMenu(menuName, this),
+            "ScreenMenu" => new ScreenMenu(menuName, this),
             _ => null
         };
     }

@@ -38,14 +38,12 @@
 - Download the latest release from the releases tab and copy it into the csgo folder.
 
 **Requirements**
-- [MenuManager](https://github.com/NickFox007/MenuManagerCS2)
-- [PlayerSettings](https://github.com/NickFox007/PlayerSettingsCS2) - MenuManager needs this
-- [AnyBaseLibCS2](https://github.com/NickFox007/AnyBaseLibCS2) - PlayerSettings needs this
+- [CS2MenuManager](https://github.com/schwarper/CS2MenuManager)
 
 **Example config:**
 ```json
 {
-  "Menutype": "all",    // chat(Force chat), center(Force centerhtml), wasd(Force wasd), all(Allow players to select via !menus)
+  "Menutype": "ChatMenu",    // ChatMenu, ConsoleMenu, CenterHtml, WasdMenu, ScreenMenu
   "RequiredVotePercentage": 80,
   "Line": "----------------------------------",
   "EnableVotemute": true,

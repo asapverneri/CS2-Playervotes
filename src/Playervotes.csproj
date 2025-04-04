@@ -12,8 +12,8 @@
     </ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="MenuManagerApi">
-			<HintPath>MenuManagerApi.dll</HintPath>
+		<Reference Include="CS2MenuManager">
+			<HintPath>CS2MenuManager.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
