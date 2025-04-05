@@ -5,8 +5,8 @@
   "alreadyvoted": "{green}[Playervotes] {default}você já votou em {1} jogador {red}{2}{default}.",
   
   "votebanned": "{green}[Playervotes] {default}{0} foi banido por {1} minutos.",
-  "votekicked": "{green}[Playervotes] {default}{0} foi expulso por voto.",
-  "votemuted": "{green}[Playervotes] {default}{0} foi silenciado por {1} minutos.",
-  "votegagged": "{green}[Playervotes] {default}{0} foi silenciado por {1} minutos.",
+  "votekicked": "{green}[Playervotes] {default}{0} foi expulso por votção.",
+  "votemuted": "{green}[Playervotes] {default}{0} recebeu mute por {1} minutos.",
+  "votegagged": "{green}[Playervotes] {default}{0} recebeu gag por {1} minutos.",
   "votesilenced": "{green}[Playervotes] {default}{0} foi silenciado por {1} minutos."
 }
