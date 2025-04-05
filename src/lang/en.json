@@ -1,7 +1,7 @@
 {
   "cantvote": "{green}[Playervotes] {default}Player you've selected has immunity.",
   "voteurself": "{green}[Playervotes] {default}You can't vote yourself..",
-  "voteprogress": "{green}[Playervotes] {lime}{0}{default} wants to vote{1} player {red}{2}{default}. ({3}/{4} vote(s))",
+  "voteprogress": "{green}[Playervotes] {lime}{0}{default} wants to vote {1} player {red}{2}{default}. ({3}/{4} vote(s))",
   "alreadyvoted": "{green}[Playervotes] {default}you already voted to {1} player {red}{2}{default}.",
 
   "votebanned": "{green}[Playervotes] {default}{0} has been votebanned for {1} minutes.",
