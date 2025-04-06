@@ -1,5 +1,6 @@
 {
   "cantvote": "{green}[Playervotes] {default}Pelaajalla jota yrität votea on immunity.",
+  "noaccess": "{green}[Playervotes] {default}Sinulla ei ole oikeutta tähän komentoon.",
   "voteurself": "{green}[Playervotes] {default}Et voi votea itseäsi.",
   "voteprogress": "{green}[Playervotes] {lime}{0}{default} haluaa vote {1} pelaajan {red}{2}{default}. ({3}/{4} votea)",
   "alreadyvoted": "{green}[Playervotes] {default}Olet jo votennut pelaajaa {red}{2}{default}.",

@@ -14,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.6";
+    public override string ModuleVersion => "1.7";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -32,6 +32,8 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override void Load(bool hotReload)
     {
         Logger.LogInformation($"Loaded (version {ModuleVersion})");
+
+        RegisterListener<Listeners.OnMapStart>(OnMapStart);
 
         if (Config.EnableVotekick && !string.IsNullOrWhiteSpace(Config.Menutype))
         AddCommand($"css_votekick", "Start votekick", OnVotekick);
@@ -54,12 +56,26 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         }
 
     }
-
+    private void OnMapStart(string map)
+    {
+        if (Config.ClearVotesOnMapStart)
+        {
+            voteKickCounts.Clear();
+            voteBanCounts.Clear();
+            voteMuteCounts.Clear();
+            voteGagCounts.Clear();
+            voteSilenceCounts.Clear();
+        }
+    }
     public void OnVotekick(CCSPlayerController? player, CommandInfo command)
     {
         if (player == null || !player.IsValid)
             return;
 
+        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        {
+            player.PrintToChat($"{Localizer["noaccess"]}");
+        }
 
         var menu = CreateMenu("Votekick");
         if (menu == null)
@@ -82,6 +98,11 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
+        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        {
+            player.PrintToChat($"{Localizer["noaccess"]}");
+        }
+
         var menu = CreateMenu("Voteban");
         if (menu == null)
             return;
@@ -102,6 +123,11 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     {
         if (player == null || !player.IsValid)
             return;
+
+        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        {
+            player.PrintToChat($"{Localizer["noaccess"]}");
+        }
 
         var menu = CreateMenu("Votemute");
         if (menu == null)
@@ -124,6 +150,11 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
+        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        {
+            player.PrintToChat($"{Localizer["noaccess"]}");
+        }
+
         var menu = CreateMenu("Votegag");
         if (menu == null)
             return;
@@ -143,6 +174,11 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     {
         if (player == null || !player.IsValid)
             return;
+
+        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        {
+            player.PrintToChat($"{Localizer["noaccess"]}");
+        }
 
         var menu = CreateMenu("Votesilence");
         if (menu == null)

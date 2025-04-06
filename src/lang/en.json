@@ -1,5 +1,6 @@
 {
   "cantvote": "{green}[Playervotes] {default}Player you've selected has immunity.",
+  "noaccess": "{green}[Playervotes] {default}You don't have access to use this command.",
   "voteurself": "{green}[Playervotes] {default}You can't vote yourself..",
   "voteprogress": "{green}[Playervotes] {lime}{0}{default} wants to vote {1} player {red}{2}{default}. ({3}/{4} vote(s))",
   "alreadyvoted": "{green}[Playervotes] {default}you already voted to {1} player {red}{2}{default}.",
