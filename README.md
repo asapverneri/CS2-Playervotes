@@ -45,6 +45,8 @@
 {
   "Menutype": "ChatMenu",    // ChatMenu, ConsoleMenu, CenterHtml, WasdMenu, ScreenMenu
   "RequiredVotePercentage": 80,
+  "ClearVotesOnMapStart": true,
+  "FlagForCommands": "",    // "@css/vip" for example
   "Line": "----------------------------------",
   "EnableVotemute": true,
   "MuteDuration": 60,
