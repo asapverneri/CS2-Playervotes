@@ -14,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.8";
+    public override string ModuleVersion => "1.9";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -72,7 +72,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
             return;
@@ -99,7 +99,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
             return;
@@ -126,7 +126,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
             return;
@@ -153,7 +153,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
             return;
@@ -179,7 +179,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
             return;
