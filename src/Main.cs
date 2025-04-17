@@ -14,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.7";
+    public override string ModuleVersion => "1.8";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -75,6 +75,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
+            return;
         }
 
         var menu = CreateMenu("Votekick");
@@ -101,6 +102,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
+            return;
         }
 
         var menu = CreateMenu("Voteban");
@@ -127,6 +129,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
+            return;
         }
 
         var menu = CreateMenu("Votemute");
@@ -153,6 +156,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
+            return;
         }
 
         var menu = CreateMenu("Votegag");
@@ -178,6 +182,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
         {
             player.PrintToChat($"{Localizer["noaccess"]}");
+            return;
         }
 
         var menu = CreateMenu("Votesilence");
