@@ -2,6 +2,7 @@
   "cantvote": "{green}[Playervotes] {default}У выбранного игрока есть иммунитет.",
   "noaccess": "{green}[Playervotes] {default}У вас нет доступа к этой команде.",
   "voteurself": "{green}[Playervotes] {default}Вы не можете голосовать за самого себя.",
+  "noenoughplayers": "{green}[Playervotes] {default}Недостаточно игроков, требуется {purple}{0}{default} игроков для использования playervotes..",
   "voteprogress": "{green}[Playervotes] {lime}{0}{default} хочет проголосовать за {1} игрока {red}{2}{default}. ({3}/{4} голосов)",
   "alreadyvoted": "{green}[Playervotes] {default}Вы уже проголосовали за {1} игрока {red}{2}{default}.",
 
@@ -9,5 +10,11 @@
   "votekicked": "{green}[Playervotes] {default}{0} был(а) исключён(а) голосованием.",
   "votemuted": "{green}[Playervotes] {default}{0} был(а) замьючен(а) голосованием на {1} минут(ы).",
   "votegagged": "{green}[Playervotes] {default}{0} был(а) заглушён(а) голосованием на {1} минут(ы).",
-  "votesilenced": "{green}[Playervotes] {default}{0} был(а) лишён(а) возможности общаться голосованием на {1} минут(ы)."
+  "votesilenced": "{green}[Playervotes] {default}{0} был(а) лишён(а) возможности общаться голосованием на {1} минут(ы).",
+
+  "votekick.title": "Votekick",
+  "voteban.title": "Voteban",
+  "votemute.title": "Votemute",
+  "votegag.title": "Votegag",
+  "votesilence.title": "Votesilence"
 }

@@ -45,8 +45,9 @@
 {
   "Menutype": "ChatMenu",    // ChatMenu, ConsoleMenu, CenterHtml, WasdMenu, ScreenMenu
   "RequiredVotePercentage": 80,
+  "RequiredPlayers": 2,    // Min players to allow playervotes
   "ClearVotesOnMapStart": true,
-  "FlagForCommands": "",    // "@css/vip" for example
+  "PermissionForCommands": "",    // "#css/vip" or "@css/vip" for example
   "Line": "----------------------------------",
   "EnableVotemute": true,
   "MuteDuration": 60,
@@ -67,7 +68,7 @@
   "SilenceDuration": 120,
   "SilenceReason": "votesilenced",
   "Line6": "----------------------------------",
-  "VoteImmunity": "@css/vip, @css/vvip",
+  "VoteImmunity": "#css/vip, @css/vip",
   "ConfigVersion": 1
 }
 ```

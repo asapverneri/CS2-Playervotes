@@ -2,6 +2,7 @@
   "cantvote": "{green}[Playervotes] {default}Pelaajalla jota yrität votea on immunity.",
   "noaccess": "{green}[Playervotes] {default}Sinulla ei ole oikeutta tähän komentoon.",
   "voteurself": "{green}[Playervotes] {default}Et voi votea itseäsi.",
+  "noenoughplayers": "{green}[Playervotes] {default}Pelaajia ei ole tarpeeksi, vähintään {purple}{0}{default} pelaajaa tarvitaan..",
   "voteprogress": "{green}[Playervotes] {lime}{0}{default} haluaa vote {1} pelaajan {red}{2}{default}. ({3}/{4} votea)",
   "alreadyvoted": "{green}[Playervotes] {default}Olet jo votennut pelaajaa {red}{2}{default}.",
 
@@ -9,5 +10,11 @@
   "votekicked": "{green}[Playervotes] {default}{0} on votekickattu.",
   "votemuted": "{green}[Playervotes] {default}{0} on votemutettu ({1}min).",
   "votegagged": "{green}[Playervotes] {default}{0} on votegagitty ({1}min).",
-  "votesilenced": "{green}[Playervotes] {default}{0} on hiljennetty votella ({1}min)."
+  "votesilenced": "{green}[Playervotes] {default}{0} on hiljennetty votella ({1}min).",
+
+  "votekick.title": "Votekick",
+  "voteban.title": "Voteban",
+  "votemute.title": "Votemute",
+  "votegag.title": "Votegag",
+  "votesilence.title": "Votesilence"
 }

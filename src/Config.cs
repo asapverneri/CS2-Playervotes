@@ -11,10 +11,13 @@ namespace Playervotes
         [JsonPropertyName("RequiredVotePercentage")]
         public float RequiredVotePercentage { get; set; } = 80.0f;
 
+        [JsonPropertyName("RequiredPlayers")]
+        public int RequiredPlayers { get; set; } = 2;
+
         [JsonPropertyName("ClearVotesOnMapStart")]
         public bool ClearVotesOnMapStart { get; set; } = true;
 
-        [JsonPropertyName("FlagForCommands")]
+        [JsonPropertyName("PermissionForCommands")]
         public string FlagForCommands { get; set; } = "";
 
         public string Line { get; set; } = "----------------------------------";

@@ -2,6 +2,7 @@
   "cantvote": "{green}[Playervotes] {default}Player you've selected has immunity.",
   "noaccess": "{green}[Playervotes] {default}You don't have access to use this command.",
   "voteurself": "{green}[Playervotes] {default}You can't vote yourself..",
+  "noenoughplayers": "{green}[Playervotes] {default}Not enough players, {purple}{0}{default} players needed to use playervotes..",
   "voteprogress": "{green}[Playervotes] {lime}{0}{default} wants to vote {1} player {red}{2}{default}. ({3}/{4} vote(s))",
   "alreadyvoted": "{green}[Playervotes] {default}you already voted to {1} player {red}{2}{default}.",
 
@@ -9,5 +10,11 @@
   "votekicked": "{green}[Playervotes] {default}{0} has been votekicked.",
   "votemuted": "{green}[Playervotes] {default}{0} has been votemuted for {1} minutes.",
   "votegagged": "{green}[Playervotes] {default}{0} has been votegagged for {1} minutes.",
-  "votesilenced": "{green}[Playervotes] {default}{0} has been votesilenced for {1} minutes."
+  "votesilenced": "{green}[Playervotes] {default}{0} has been votesilenced for {1} minutes.",
+
+  "votekick.title": "Votekick",
+  "voteban.title": "Voteban",
+  "votemute.title": "Votemute",
+  "votegag.title": "Votegag",
+  "votesilence.title": "Votesilence"
 }

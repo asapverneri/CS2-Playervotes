@@ -14,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "1.9";
+    public override string ModuleVersion => "2.0";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -72,13 +72,33 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!EnoughPlayers())
         {
-            player.PrintToChat($"{Localizer["noaccess"]}");
+            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
             return;
         }
 
-        var menu = CreateMenu("Votekick");
+        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        {
+            if (Config.FlagForCommands.StartsWith("#"))
+            {
+                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+            else if (Config.FlagForCommands.StartsWith("@"))
+            {
+                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+        }
+
+        var menu = CreateMenu($"{Localizer["votekick.title"]}");
         if (menu == null)
             return;
 
@@ -99,13 +119,33 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!EnoughPlayers())
         {
-            player.PrintToChat($"{Localizer["noaccess"]}");
+            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
             return;
         }
 
-        var menu = CreateMenu("Voteban");
+        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        {
+            if (Config.FlagForCommands.StartsWith("#"))
+            {
+                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+            else if (Config.FlagForCommands.StartsWith("@"))
+            {
+                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+        }
+
+        var menu = CreateMenu($"{Localizer["voteban.title"]}");
         if (menu == null)
             return;
 
@@ -126,13 +166,33 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!EnoughPlayers())
         {
-            player.PrintToChat($"{Localizer["noaccess"]}");
+            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
             return;
         }
 
-        var menu = CreateMenu("Votemute");
+        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        {
+            if (Config.FlagForCommands.StartsWith("#"))
+            {
+                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+            else if (Config.FlagForCommands.StartsWith("@"))
+            {
+                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+        }
+
+        var menu = CreateMenu($"{Localizer["votemute.title"]}");
         if (menu == null)
             return;
 
@@ -153,13 +213,33 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!EnoughPlayers())
         {
-            player.PrintToChat($"{Localizer["noaccess"]}");
+            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
             return;
         }
 
-        var menu = CreateMenu("Votegag");
+        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        {
+            if (Config.FlagForCommands.StartsWith("#"))
+            {
+                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+            else if (Config.FlagForCommands.StartsWith("@"))
+            {
+                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+        }
+
+        var menu = CreateMenu($"{Localizer["votegag.title"]}");
         if (menu == null)
             return;
 
@@ -179,13 +259,33 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         if (player == null || !player.IsValid)
             return;
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands) && !AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+        if (!EnoughPlayers())
         {
-            player.PrintToChat($"{Localizer["noaccess"]}");
+            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
             return;
         }
 
-        var menu = CreateMenu("Votesilence");
+        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        {
+            if (Config.FlagForCommands.StartsWith("#"))
+            {
+                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+            else if (Config.FlagForCommands.StartsWith("@"))
+            {
+                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                {
+                    player.PrintToChat($"{Localizer["noaccess"]}");
+                    return;
+                }
+            }
+        }
+
+        var menu = CreateMenu($"{Localizer["votesilence.title"]}");
         if (menu == null)
             return;
 
@@ -212,10 +312,21 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         string[] flags = Config.VoteImmunity.Split(',').Select(flag => flag.Trim()).ToArray();
         foreach (var flag in flags)
         {
-            if (AdminManager.PlayerHasPermissions(target, flag))
+            if (flag.StartsWith("#"))
             {
-                voter.PrintToChat($"{Localizer["cantvote"]}");
-                return;
+                if (AdminManager.PlayerInGroup(target, flag))
+                {
+                    voter.PrintToChat($"{Localizer["cantvote"]}");
+                    return;
+                }
+            }
+            else if (flag.StartsWith("@"))
+            {
+                if (AdminManager.PlayerHasPermissions(target, flag))
+                {
+                    voter.PrintToChat($"{Localizer["cantvote"]}");
+                    return;
+                }
             }
         }
         var voteDictionary = action switch
@@ -280,6 +391,11 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
         return Utilities.GetPlayers()
             .Where(p => !p.IsHLTV && !p.IsBot && p.PlayerPawn.IsValid && p.Connected == PlayerConnectedState.PlayerConnected)
             .ToList();
+    }
+    private bool EnoughPlayers()
+    {
+        int activePlayersCount = GetActivePlayers().Count;
+        return activePlayersCount >= Config.RequiredPlayers;
     }
 
     private BaseMenu? CreateMenu(string menuName)

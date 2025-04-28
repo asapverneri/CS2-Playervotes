@@ -2,6 +2,7 @@
   "cantvote": "{green}[Playervotes] {default}O jogador que você selecionou tem imunidade.",
   "noaccess": "{green}[Playervotes] {default}Você não tem permissão para usar este comando.",
   "voteurself": "{green}[Playervotes] {default}Você não pode votar em si mesmo..",
+  "noenoughplayers": "{green}[Playervotes] {default}Jogadores insuficientes, {purple}{0}{default} jogadores necessários para usar o playervote..",
   "voteprogress": "{green}[Playervotes] {lime}{0}{default} quer votar em {1} jogador {red}{2}{default}. ({3}/{4} voto(s))",
   "alreadyvoted": "{green}[Playervotes] {default}você já votou em {1} jogador {red}{2}{default}.",
 
@@ -9,5 +10,11 @@
   "votekicked": "{green}[Playervotes] {default}{0} foi expulso por votção.",
   "votemuted": "{green}[Playervotes] {default}{0} recebeu mute por {1} minutos.",
   "votegagged": "{green}[Playervotes] {default}{0} recebeu gag por {1} minutos.",
-  "votesilenced": "{green}[Playervotes] {default}{0} foi silenciado por {1} minutos."
+  "votesilenced": "{green}[Playervotes] {default}{0} foi silenciado por {1} minutos.",
+
+  "votekick.title": "Votekick",
+  "voteban.title": "Voteban",
+  "votemute.title": "Votemute",
+  "votegag.title": "Votegag",
+  "votesilence.title": "Votesilence"
 }
