@@ -14,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "2.1";
+    public override string ModuleVersion => "2.2";
 
     public PlayervotesConfig Config { get; set; } = new();
 
