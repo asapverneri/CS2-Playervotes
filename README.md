@@ -43,7 +43,7 @@
 **Example config:**
 ```json
 {
-  "Menutype": "ChatMenu",    // ChatMenu, ConsoleMenu, CenterHtml, WasdMenu, ScreenMenu
+  "Menutype": "CenterHtml",    // ChatMenu, ConsoleMenu, CenterHtml, WasdMenu
   "RequiredVotePercentage": 80,
   "RequiredPlayers": 2,    // Min players to allow playervotes
   "ClearVotesOnMapStart": true,

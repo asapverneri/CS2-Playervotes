@@ -14,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "2.2";
+    public override string ModuleVersion => "2.3";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -406,7 +406,6 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             "ConsoleMenu" => new ConsoleMenu(menuName, this),
             "CenterHtml" => new CenterHtmlMenu(menuName, this),
             "WasdMenu" => new WasdMenu(menuName, this),
-            "ScreenMenu" => new ScreenMenu(menuName, this),
             _ => null
         };
     }
