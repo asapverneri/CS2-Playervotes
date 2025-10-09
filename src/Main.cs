@@ -14,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "2.3";
+    public override string ModuleVersion => "2.4";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -111,7 +111,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             });
         }
 
-        menu.Display(player, 10);
+        menu.Display(player, 0);
     }
 
     public void OnVoteban(CCSPlayerController? player, CommandInfo command)
@@ -158,7 +158,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             });
         }
 
-        menu.Display(player, 10);
+        menu.Display(player, 0);
     }
 
     public void OnVotemute(CCSPlayerController? player, CommandInfo command)
@@ -205,7 +205,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             });
         }
 
-        menu.Display(player, 10);
+        menu.Display(player, 0);
     }
 
     public void OnVotegag(CCSPlayerController? player, CommandInfo command)
@@ -252,7 +252,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             });
         }
 
-        menu.Display(player, 10);
+        menu.Display(player, 0);
     }
     public void OnVotesilence(CCSPlayerController? player, CommandInfo command)
     {
@@ -298,7 +298,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             });
         }
 
-        menu.Display(player, 10);
+        menu.Display(player, 0);
     }
 
     private void StartVote(CCSPlayerController voter, CCSPlayerController target, string action)
