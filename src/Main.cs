@@ -14,7 +14,7 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
-    public override string ModuleVersion => "2.4";
+    public override string ModuleVersion => "2.5";
 
     public PlayervotesConfig Config { get; set; } = new();
 
@@ -78,19 +78,19 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             return;
         }
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.PermissionForVoteKick))
         {
-            if (Config.FlagForCommands.StartsWith("#"))
+            if (Config.PermissionForVoteKick.StartsWith("#"))
             {
-                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteKick))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
                 }
             }
-            else if (Config.FlagForCommands.StartsWith("@"))
+            else if (Config.PermissionForVoteKick.StartsWith("@"))
             {
-                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteKick))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
@@ -125,19 +125,19 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             return;
         }
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.PermissionForVoteBan))
         {
-            if (Config.FlagForCommands.StartsWith("#"))
+            if (Config.PermissionForVoteBan.StartsWith("#"))
             {
-                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteBan))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
                 }
             }
-            else if (Config.FlagForCommands.StartsWith("@"))
+            else if (Config.PermissionForVoteBan.StartsWith("@"))
             {
-                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteBan))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
@@ -172,19 +172,19 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             return;
         }
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.PermissionForVoteMute))
         {
-            if (Config.FlagForCommands.StartsWith("#"))
+            if (Config.PermissionForVoteMute.StartsWith("#"))
             {
-                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteMute))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
                 }
             }
-            else if (Config.FlagForCommands.StartsWith("@"))
+            else if (Config.PermissionForVoteMute.StartsWith("@"))
             {
-                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteMute))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
@@ -219,19 +219,19 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             return;
         }
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.PermissionForVoteGag))
         {
-            if (Config.FlagForCommands.StartsWith("#"))
+            if (Config.PermissionForVoteGag.StartsWith("#"))
             {
-                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteGag))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
                 }
             }
-            else if (Config.FlagForCommands.StartsWith("@"))
+            else if (Config.PermissionForVoteGag.StartsWith("@"))
             {
-                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteGag))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
@@ -265,19 +265,19 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
             return;
         }
 
-        if (!string.IsNullOrEmpty(Config.FlagForCommands))
+        if (!string.IsNullOrEmpty(Config.PermissionForVoteSilence))
         {
-            if (Config.FlagForCommands.StartsWith("#"))
+            if (Config.PermissionForVoteSilence.StartsWith("#"))
             {
-                if (!AdminManager.PlayerInGroup(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteSilence))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;
                 }
             }
-            else if (Config.FlagForCommands.StartsWith("@"))
+            else if (Config.PermissionForVoteSilence.StartsWith("@"))
             {
-                if (!AdminManager.PlayerHasPermissions(player, Config.FlagForCommands))
+                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteSilence))
                 {
                     player.PrintToChat($"{Localizer["noaccess"]}");
                     return;

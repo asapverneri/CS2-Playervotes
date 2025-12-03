@@ -17,13 +17,13 @@ namespace Playervotes
         [JsonPropertyName("ClearVotesOnMapStart")]
         public bool ClearVotesOnMapStart { get; set; } = true;
 
-        [JsonPropertyName("PermissionForCommands")]
-        public string FlagForCommands { get; set; } = "";
-
         public string Line { get; set; } = "----------------------------------";
 
         [JsonPropertyName("Votemute")]
         public bool EnableVotemute { get; set; } = true;
+
+        [JsonPropertyName("PermissionForVoteMute")]
+        public string PermissionForVoteMute { get; set; } = "";
 
         [JsonPropertyName("MuteDuration")]
         public int MuteDuration { get; set; } = 60;
@@ -36,6 +36,9 @@ namespace Playervotes
         [JsonPropertyName("Voteban")]
         public bool EnableVoteban { get; set; } = true;
 
+        [JsonPropertyName("PermissionForVoteBan")]
+        public string PermissionForVoteBan { get; set; } = "";
+
         [JsonPropertyName("BanDuration")]
         public int BanDuration { get; set; } = 120;
 
@@ -47,6 +50,9 @@ namespace Playervotes
         [JsonPropertyName("Votekick")]
         public bool EnableVotekick { get; set; } = true;
 
+        [JsonPropertyName("PermissionForVoteKick")]
+        public string PermissionForVoteKick { get; set; } = "";
+
         [JsonPropertyName("KickReason")]
         public string KickReason { get; set; } = "Votekicked";
 
@@ -54,6 +60,9 @@ namespace Playervotes
 
         [JsonPropertyName("Votegag")]
         public bool EnableVotegag { get; set; } = true;
+
+        [JsonPropertyName("PermissionForVoteGag")]
+        public string PermissionForVoteGag { get; set; } = "";
 
         [JsonPropertyName("GagDuration")]
         public int GagDuration { get; set; } = 60;
@@ -65,6 +74,9 @@ namespace Playervotes
 
         [JsonPropertyName("Votesilence")]
         public bool EnableVotesilence { get; set; } = true;
+
+        [JsonPropertyName("PermissionForVoteSilence")]
+        public string PermissionForVoteSilence { get; set; } = "";
 
         [JsonPropertyName("SilenceDuration")]
         public int SilenceDuration { get; set; } = 60;
