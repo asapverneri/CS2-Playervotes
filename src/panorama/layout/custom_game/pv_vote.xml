@@ -1,0 +1,58 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/pv_vote.vcss_c" />
+	</styles>
+
+	<!--
+		pv_vote. The vote card shown to every player while a vote runs. Anonymous root has no id.
+		PvVoteRoot is LayoutContract.RootPanelId. Reveal class is pv-show. Hide class is pv-hidden.
+		The plugin drives it through two handles: a passive one (no cursor) and a live one (CaptureInput)
+		after the player presses E.
+
+		Root classes: pv-live (clickable mode), pv-me (viewer is the target), pv-ended + pv-passed / pv-failed.
+		Text: pv_title, pv_time, pv_type, pv_target, pv_starter, pv_need, pv_hint, pv_result,
+		pv_yes_lbl / pv_yes_count, pv_no_lbl / pv_no_count.
+		pv-f-0 .. pv-f-10 on pv_fill (yes votes against the required number). pv-picked on pv_yes / pv_no.
+		Buttons: pv_yes, pv_no, pv_cancel (back to passive mode).
+	-->
+	<Panel class="pv-screen" hittest="false">
+		<Panel id="PvVoteRoot" class="pv-root">
+			<Panel class="pv-card">
+				<Panel class="pv-accent" />
+
+				<Panel class="pv-top">
+					<Label class="pv-kicker" text="{s:pv_title}" />
+					<Label class="pv-time" text="{s:pv_time}" />
+					<Button id="pv_cancel" class="pv-close">
+						<Label class="pv-x" text="&#215;" />
+					</Button>
+				</Panel>
+
+				<Panel class="pv-body">
+					<Label class="pv-type" text="{s:pv_type}" />
+					<Label class="pv-target" text="{s:pv_target}" />
+					<Label class="pv-starter" text="{s:pv_starter}" />
+
+					<Panel class="pv-track">
+						<Panel id="pv_fill" class="pv-fill pv-f-0" />
+					</Panel>
+					<Label class="pv-need" text="{s:pv_need}" />
+
+					<Panel class="pv-buttons">
+						<Button id="pv_yes" class="pv-btn pv-btn-yes">
+							<Label class="pv-btn-lbl" text="{s:pv_yes_lbl}" />
+							<Label class="pv-btn-count" text="{s:pv_yes_count}" />
+						</Button>
+						<Button id="pv_no" class="pv-btn pv-btn-no">
+							<Label class="pv-btn-lbl" text="{s:pv_no_lbl}" />
+							<Label class="pv-btn-count" text="{s:pv_no_count}" />
+						</Button>
+					</Panel>
+
+					<Label class="pv-hint" text="{s:pv_hint}" />
+					<Label class="pv-result" text="{s:pv_result}" />
+				</Panel>
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

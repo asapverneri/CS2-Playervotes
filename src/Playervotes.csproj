@@ -5,6 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <OutputPath>$(MSBuildThisFileDirectory)bin\$(Configuration)\$(TargetFramework)\counterstrikesharp\plugins\Playervotes\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,11 +14,15 @@
             <PrivateAssets>none</PrivateAssets>
             <ExcludeAssets>runtime</ExcludeAssets>
         </PackageReference>
+        <PackageReference Include="PanoramaManager" Version="0.4.4">
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
 	</ItemGroup>
 
     <ItemGroup>
       <Reference Include="MenuManagerApi">
         <HintPath>..\..\API\MenuManagerApi.dll</HintPath>
+        <Private>false</Private>
       </Reference>
     </ItemGroup>
 

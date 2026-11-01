@@ -2,3 +2,4 @@ src/bin
 .vs
 src/obj
 *.sln
+src/previews

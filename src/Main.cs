@@ -1,31 +1,26 @@
-using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Capabilities;
-using CounterStrikeSharp.API.Modules.Admin;
-using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Menu;
+using CounterStrikeSharp.API.Modules.Extensions;
+using CounterStrikeSharp.API.Modules.Timers;
 using MenuManager;
 using Microsoft.Extensions.Logging;
 
 namespace Playervotes;
 
-public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
+public partial class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
 {
     public override string ModuleName => "Playervotes";
     public override string ModuleDescription => "Lightweight playervotes for cs2";
     public override string ModuleAuthor => "verneri";
     public override string ModuleVersion => "2.5";
 
-    public PlayervotesConfig Config { get; set; } = new();
+    private const int MaxSlots = 64;
 
-    private readonly Dictionary<ulong, HashSet<ulong>> voteKickCounts = new();
-    private readonly Dictionary<ulong, HashSet<ulong>> voteBanCounts = new();
-    private readonly Dictionary<ulong, HashSet<ulong>> voteMuteCounts = new();
-    private readonly Dictionary<ulong, HashSet<ulong>> voteGagCounts = new();
-    private readonly Dictionary<ulong, HashSet<ulong>> voteSilenceCounts = new();
+    public PlayervotesConfig Config { get; set; } = new();
 
     private static readonly PluginCapability<IMenuApi?> MenuApi = new("menu:nfcore");
     private IMenuApi? _menu;
+    private bool _unloading;
 
     public override void OnAllPluginsLoaded(bool hotReload)
     {
@@ -38,338 +33,38 @@ public class Playervotes : BasePlugin, IPluginConfig<PlayervotesConfig>
 
     public void OnConfigParsed(PlayervotesConfig config)
     {
-        Config = config;
+        // A version 1 file was read into the defaults; the migration carries its values over
+        Config = ConfigMigration.TryMigrate(config.GetConfigPath(), Logger) ?? config;
+
+        var report = new ConfigUpdater.Report();
+        if (ConfigUpdater.UpdateFile(config.GetConfigPath(),
+                text => ConfigUpdater.AddMissing(text, new PlayervotesConfig(), ConfigUpdater.Options, report), Logger))
+            Logger.LogInformation("Config updated with new settings: {Keys}", string.Join(", ", report.Added));
+        if (report.Unknown.Count > 0)
+            Logger.LogWarning("Config has settings this version does not use: {Keys}", string.Join(", ", report.Unknown));
     }
 
     public override void Load(bool hotReload)
     {
-        Logger.LogInformation($"Loaded (version {ModuleVersion})");
+        Logger.LogInformation("Loaded (version {Version})", ModuleVersion);
 
-        RegisterListener<Listeners.OnMapStart>(OnMapStart);
+        ApplyDebugSettings();
+        RegisterListener<Listeners.OnMapStart>(_ => PerfMonitor.Reset());
+        RegisterListener<Listeners.OnMapEnd>(OnMapEnd);
+        RegisterListener<Listeners.OnClientDisconnect>(OnClientDisconnect);
+        RegisterCommands();
 
-        if (Config.EnableVotekick)
-            AddCommand("css_votekick", "Start votekick", OnVotekick);
+        // Runs for the plugin's lifetime and is never killed: killing timers from timer callbacks corrupts CSS's timer list
+        AddTimer(1.0f, OnVoteSecond, TimerFlags.REPEAT);
 
-        if (Config.EnableVoteban)
-            AddCommand("css_voteban", "Start voteban", OnVoteban);
-
-        if (Config.EnableVotemute)
-            AddCommand("css_votemute", "Start votemute", OnVotemute);
-
-        if (Config.EnableVotegag)
-            AddCommand("css_votegag", "Start votegag", OnVotegag);
-
-        if (Config.EnableVotesilence)
-            AddCommand("css_votesilence", "Start votesilence", OnVotesilence);
-    }
-    private void OnMapStart(string map)
-    {
-        if (Config.ClearVotesOnMapStart)
-        {
-            voteKickCounts.Clear();
-            voteBanCounts.Clear();
-            voteMuteCounts.Clear();
-            voteGagCounts.Clear();
-            voteSilenceCounts.Clear();
-        }
-    }
-    public void OnVotekick(CCSPlayerController? player, CommandInfo command)
-    {
-        if (player == null || !player.IsValid)
-            return;
-
-        if (!EnoughPlayers())
-        {
-            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(Config.PermissionForVoteKick))
-        {
-            if (Config.PermissionForVoteKick.StartsWith("#"))
-            {
-                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteKick))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-            else if (Config.PermissionForVoteKick.StartsWith("@"))
-            {
-                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteKick))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-        }
-
-        OpenPlayerMenu(player, $"{Localizer["votekick.title"]}", "kick");
+        StartPanel();
     }
 
-    public void OnVoteban(CCSPlayerController? player, CommandInfo command)
+    public override void Unload(bool hotReload)
     {
-        if (player == null || !player.IsValid)
-            return;
-
-        if (!EnoughPlayers())
-        {
-            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(Config.PermissionForVoteBan))
-        {
-            if (Config.PermissionForVoteBan.StartsWith("#"))
-            {
-                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteBan))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-            else if (Config.PermissionForVoteBan.StartsWith("@"))
-            {
-                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteBan))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-        }
-
-        OpenPlayerMenu(player, $"{Localizer["voteban.title"]}", "ban");
-    }
-
-    public void OnVotemute(CCSPlayerController? player, CommandInfo command)
-    {
-        if (player == null || !player.IsValid)
-            return;
-
-        if (!EnoughPlayers())
-        {
-            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(Config.PermissionForVoteMute))
-        {
-            if (Config.PermissionForVoteMute.StartsWith("#"))
-            {
-                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteMute))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-            else if (Config.PermissionForVoteMute.StartsWith("@"))
-            {
-                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteMute))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-        }
-
-        OpenPlayerMenu(player, $"{Localizer["votemute.title"]}", "mute");
-    }
-
-    public void OnVotegag(CCSPlayerController? player, CommandInfo command)
-    {
-        if (player == null || !player.IsValid)
-            return;
-
-        if (!EnoughPlayers())
-        {
-            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(Config.PermissionForVoteGag))
-        {
-            if (Config.PermissionForVoteGag.StartsWith("#"))
-            {
-                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteGag))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-            else if (Config.PermissionForVoteGag.StartsWith("@"))
-            {
-                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteGag))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-        }
-
-        OpenPlayerMenu(player, $"{Localizer["votegag.title"]}", "gag");
-    }
-    public void OnVotesilence(CCSPlayerController? player, CommandInfo command)
-    {
-        if (player == null || !player.IsValid)
-            return;
-
-        if (!EnoughPlayers())
-        {
-            player.PrintToChat($"{Localizer["noenoughplayers", Config.RequiredPlayers]}");
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(Config.PermissionForVoteSilence))
-        {
-            if (Config.PermissionForVoteSilence.StartsWith("#"))
-            {
-                if (!AdminManager.PlayerInGroup(player, Config.PermissionForVoteSilence))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-            else if (Config.PermissionForVoteSilence.StartsWith("@"))
-            {
-                if (!AdminManager.PlayerHasPermissions(player, Config.PermissionForVoteSilence))
-                {
-                    player.PrintToChat($"{Localizer["noaccess"]}");
-                    return;
-                }
-            }
-        }
-
-        OpenPlayerMenu(player, $"{Localizer["votesilence.title"]}", "silence");
-    }
-
-    private void StartVote(CCSPlayerController voter, CCSPlayerController target, string action)
-    {
-        if (target.SteamID == voter.SteamID)
-        {
-            voter.PrintToChat($"{Localizer["voteurself"]}");
-            return;
-        }
-
-        if (MatchesFlagOrGroup(target, Config.VoteImmunity))
-        {
-            voter.PrintToChat($"{Localizer["cantvote"]}");
-            return;
-        }
-        var voteDictionary = action switch
-        {
-            "ban" => voteBanCounts,
-            "mute" => voteMuteCounts,
-            "kick" => voteKickCounts,
-            "gag" => voteGagCounts,
-            "silence" => voteSilenceCounts,
-            _ => throw new ArgumentException("Invalid action")
-        };
-
-        if (!voteDictionary.ContainsKey(target.SteamID))
-        {
-            voteDictionary[target.SteamID] = new HashSet<ulong>();
-        }
-
-        if (voteDictionary[target.SteamID].Contains(voter.SteamID))
-        {
-            voter.PrintToChat($"{Localizer["alreadyvoted", voter.PlayerName, action, target.PlayerName]}");
-            return;
-        }
-
-        voteDictionary[target.SteamID].Add(voter.SteamID);
-
-        int currentVotes = voteDictionary[target.SteamID].Count;
-        int requiredVotes = (int)System.Math.Ceiling((Config.RequiredVotePercentage / 100) * GetActivePlayers().Count);
-        Server.PrintToChatAll($"{Localizer["voteprogress", voter.PlayerName, action, target.PlayerName, currentVotes, requiredVotes]}");
-
-        if (currentVotes >= requiredVotes)
-        {
-            if (action == "ban")
-            {
-                Server.PrintToChatAll($"{Localizer["votebanned", target.PlayerName, Config.BanDuration]}");
-                Server.ExecuteCommand($"css_ban #{target.UserId} {Config.BanDuration} \"{Config.BanReason}\"");
-            }
-            else if (action == "mute")
-            {
-                Server.PrintToChatAll($"{Localizer["votemuted", target.PlayerName, Config.MuteDuration]}");
-                Server.ExecuteCommand($"css_mute #{target.UserId} {Config.MuteDuration} \"{Config.MuteReason}\"");
-            }
-            else if (action == "kick")
-            {
-                Server.PrintToChatAll($"{Localizer["votekicked", target.PlayerName]}");
-                Server.ExecuteCommand($"css_kick #{target.UserId} \"{Config.KickReason}\"");
-            }
-            else if (action == "gag")
-            {
-                Server.PrintToChatAll($"{Localizer["votegagged", target.PlayerName, Config.GagDuration]}");
-                Server.ExecuteCommand($"css_gag #{target.UserId} {Config.GagDuration} \"{Config.GagReason}\"");
-            }
-            else if (action == "silence")
-            {
-                Server.PrintToChatAll($"{Localizer["votesilenced", target.PlayerName, Config.SilenceDuration]}");
-                Server.ExecuteCommand($"css_silence #{target.UserId} {Config.SilenceDuration} \"{Config.SilenceReason}\"");
-            }
-            voteDictionary.Remove(target.SteamID);
-        }
-    }
-    private static List<CCSPlayerController> GetActivePlayers()
-    {
-        return Utilities.GetPlayers()
-            .Where(p => !p.IsHLTV && !p.IsBot && p.PlayerPawn.IsValid && p.Connected == PlayerConnectedState.Connected)
-            .ToList();
-    }
-    private static bool MatchesFlagOrGroup(CCSPlayerController player, string list)
-    {
-        if (string.IsNullOrWhiteSpace(list))
-            return false;
-
-        foreach (var entry in list.Split(','))
-        {
-            var flag = entry.Trim();
-            if (flag.StartsWith('#'))
-            {
-                if (AdminManager.PlayerInGroup(player, flag))
-                    return true;
-            }
-            else if (flag.StartsWith('@'))
-            {
-                if (AdminManager.PlayerHasPermissions(player, flag))
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
-    private bool EnoughPlayers()
-    {
-        int activePlayersCount = GetActivePlayers().Count;
-        return activePlayersCount >= Config.RequiredPlayers;
-    }
-
-    private void OpenPlayerMenu(CCSPlayerController player, string title, string action)
-    {
-        if (_menu == null)
-        {
-            player.PrintToChat($"{Localizer["nomenu"]}");
-            return;
-        }
-
-        IMenu menu = _menu.GetMenu(title);
-        menu.PostSelectAction = PostSelectAction.Close;
-
-        foreach (var target in GetActivePlayers())
-        {
-            if (MatchesFlagOrGroup(target, Config.HideFromMenu))
-                continue;
-
-            var voted = target;
-            menu.AddMenuOption(voted.PlayerName, (client, _) =>
-            {
-                StartVote(client, voted, action);
-            });
-        }
-
-        menu.Open(player);
+        _unloading = true;
+        HookVoteTick(false);
+        _vote = null;
+        StopPanel();
     }
 }

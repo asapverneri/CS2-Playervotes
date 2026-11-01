@@ -1,0 +1,306 @@
+/*
+    pv_vote. Panorama CSS only. No display, no flex, no rgba, no calc.
+
+    Small vote card on the left edge, styled after NegevlandRanks (#FED214 accent on dark cards).
+    Passive mode: buttons dimmed, the player keeps playing. pv-live (after E): cursor, buttons lit.
+*/
+
+.pv-screen {
+    width: 100%;
+    height: 100%;
+    overflow: noclip;
+    z-index: 99999;
+}
+
+.pv-hidden {
+    visibility: collapse;
+}
+
+.pv-root {
+    width: 100%;
+    height: 100%;
+    flow-children: none;
+    opacity: 0;
+    transform: translateX(-24px);
+    transition-property: opacity, transform;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out;
+}
+
+.pv-root.pv-show {
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+.pv-card {
+    width: 360px;
+    flow-children: down;
+    horizontal-align: left;
+    vertical-align: center;
+    margin-left: 24px;
+    background-color: gradient( linear, 0% 0%, 100% 100%, from( #1e1e1dfa ), to( #121212fa ) );
+    border: 1px solid #FED2142e;
+    border-radius: 12px;
+    box-shadow: #000000b0 0px 8px 24px 0px;
+    transition-property: border, box-shadow;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
+}
+
+.pv-live .pv-card {
+    border: 1px solid #FED214;
+    box-shadow: #FED21433 0px 0px 18px 2px;
+}
+
+.pv-accent {
+    width: 100%;
+    height: 2px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #FED21400 ), color-stop( 0.5, #FED214 ), to( #FED21400 ) );
+}
+
+.pv-passed .pv-accent {
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #3fbf5f00 ), color-stop( 0.5, #3fbf5f ), to( #3fbf5f00 ) );
+}
+
+.pv-failed .pv-accent {
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #d9534f00 ), color-stop( 0.5, #d9534f ), to( #d9534f00 ) );
+}
+
+.pv-top {
+    flow-children: right;
+    width: 100%;
+    height: 38px;
+    padding: 0px 8px 0px 18px;
+    border-bottom: 1px solid #2e2e2c;
+}
+
+.pv-kicker {
+    width: fill-parent-flow(1.0);
+    vertical-align: center;
+    font-family: Stratum2 Medium Condensed;
+    font-size: 17px;
+    letter-spacing: 2px;
+    color: #FED214;
+}
+
+.pv-time {
+    vertical-align: center;
+    margin-right: 8px;
+    font-family: Stratum2 Bold;
+    font-size: 15px;
+    color: #ececec;
+}
+
+.pv-close {
+    width: 26px;
+    height: 26px;
+    flow-children: none;
+    vertical-align: center;
+    background-color: #1e1e1d;
+    border: 1px solid #2e2e2c;
+    border-radius: 5px;
+    visibility: collapse;
+    transition-property: background-color;
+    transition-duration: 0.12s;
+}
+
+.pv-live .pv-close {
+    visibility: visible;
+}
+
+.pv-close:hover {
+    background-color: #8a2b2b;
+}
+
+.pv-x {
+    horizontal-align: center;
+    vertical-align: center;
+    font-size: 16px;
+    color: #ececec;
+}
+
+.pv-body {
+    width: 100%;
+    flow-children: down;
+    padding: 12px 18px 14px 18px;
+}
+
+.pv-type {
+    font-family: Stratum2 Bold;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8a8a8a;
+}
+
+.pv-target {
+    width: 100%;
+    margin-top: 2px;
+    font-family: Stratum2 Bold;
+    font-size: 24px;
+    color: #ffffff;
+    text-overflow: shrink;
+}
+
+.pv-starter {
+    margin-top: 2px;
+    font-family: Stratum2 Regular;
+    font-size: 13px;
+    color: #a8a8a8;
+}
+
+.pv-track {
+    width: 100%;
+    height: 6px;
+    margin-top: 12px;
+    border-radius: 3px;
+    background-color: #2a2a28;
+}
+
+.pv-fill {
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #E0B60F ), to( #FED214 ) );
+    transition-property: clip;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.pv-passed .pv-fill {
+    background-color: #3fbf5f;
+}
+
+.pv-f-0 { clip: rect( 0%, 0%, 100%, 0% ); }
+.pv-f-1 { clip: rect( 0%, 10%, 100%, 0% ); }
+.pv-f-2 { clip: rect( 0%, 20%, 100%, 0% ); }
+.pv-f-3 { clip: rect( 0%, 30%, 100%, 0% ); }
+.pv-f-4 { clip: rect( 0%, 40%, 100%, 0% ); }
+.pv-f-5 { clip: rect( 0%, 50%, 100%, 0% ); }
+.pv-f-6 { clip: rect( 0%, 60%, 100%, 0% ); }
+.pv-f-7 { clip: rect( 0%, 70%, 100%, 0% ); }
+.pv-f-8 { clip: rect( 0%, 80%, 100%, 0% ); }
+.pv-f-9 { clip: rect( 0%, 90%, 100%, 0% ); }
+.pv-f-10 { clip: rect( 0%, 100%, 100%, 0% ); }
+
+.pv-need {
+    margin-top: 5px;
+    font-family: Stratum2 Regular;
+    font-size: 12px;
+    color: #8a8a8a;
+}
+
+.pv-buttons {
+    flow-children: right;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.pv-btn {
+    width: fill-parent-flow(1.0);
+    height: 44px;
+    flow-children: right;
+    padding: 0px 14px;
+    border-radius: 7px;
+    background-color: #1a1a19;
+    opacity: 0.55;
+    transition-property: background-color, border, opacity;
+    transition-duration: 0.12s;
+    transition-timing-function: ease-in-out;
+}
+
+.pv-btn-yes {
+    margin-right: 5px;
+    border: 1px solid #3fbf5f66;
+}
+
+.pv-btn-no {
+    margin-left: 5px;
+    border: 1px solid #d9534f66;
+}
+
+.pv-live .pv-btn {
+    opacity: 1;
+}
+
+.pv-live .pv-btn-yes:hover {
+    background-color: #3fbf5f;
+    border: 1px solid #3fbf5f;
+}
+
+.pv-live .pv-btn-no:hover {
+    background-color: #d9534f;
+    border: 1px solid #d9534f;
+}
+
+.pv-btn.pv-picked {
+    opacity: 1;
+}
+
+.pv-btn-yes.pv-picked {
+    background-color: #3fbf5f44;
+    border: 1px solid #3fbf5f;
+}
+
+.pv-btn-no.pv-picked {
+    background-color: #d9534f44;
+    border: 1px solid #d9534f;
+}
+
+.pv-btn-lbl {
+    width: fill-parent-flow(1.0);
+    vertical-align: center;
+    font-family: Stratum2 Bold;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    color: #ececec;
+}
+
+.pv-btn-count {
+    vertical-align: center;
+    font-family: Stratum2 Bold;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.pv-me .pv-buttons {
+    visibility: collapse;
+}
+
+.pv-hint {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    font-family: Stratum2 Bold;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #FED214;
+}
+
+.pv-result {
+    width: 100%;
+    margin-top: 12px;
+    text-align: center;
+    font-family: Stratum2 Bold;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    color: #ececec;
+    visibility: collapse;
+}
+
+.pv-ended .pv-result {
+    visibility: visible;
+}
+
+.pv-ended .pv-hint,
+.pv-ended .pv-time {
+    visibility: collapse;
+}
+
+.pv-passed .pv-result {
+    color: #3fbf5f;
+}
+
+.pv-failed .pv-result {
+    color: #d9534f;
+}

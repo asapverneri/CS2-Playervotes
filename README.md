@@ -24,7 +24,9 @@
 <p>✅ Votegag</p>
 <p>✅ Votesilence</p>
 <p>✅ Immunity for VIPs</p>
-<p>✅ Configurable Vote Threshold</p>
+<p>✅ Configurable Vote Threshold (per vote type)</p>
+<p>✅ One vote at a time, shown to everyone on a Panorama panel (press <b>E</b> to vote, or <code>!yes</code> / <code>!no</code>)</p>
+<p>✅ Votes last 30 s, threshold follows the player count, and a voted player is protected from the same vote for 5 min</p>
 <p>✅ Easy usage</p>
 <br>
 <p>⬜ ...</p>
@@ -39,42 +41,50 @@
 
 **Requirements**
 - [MenuManager](https://genesis-cs.space/menuconstructor/menumanager/api/index.html#start) (`MenuManagerApi.dll` in `addons/counterstrikesharp/shared/MenuManagerApi/`). The player picks the menu type with `!menu`.
+- PanoramaManager (0.4.4) on the server, and the compiled vote panel (`panorama/layout/custom_game/pv_vote.vxml_c` + `panorama/styles/custom_game/pv_vote.vcss_c`, sources in `src/panorama/`) in an addon the clients load. Without the panel, votes still work through `!yes` / `!no`.
 
-**Example config:**
+**How a vote works**
+- `!votekick` (etc.) opens the player list; picking a player starts the vote. The starter counts as YES.
+- Only one vote runs at a time. Every player sees the panel; pressing **E** makes it clickable, choosing YES/NO (or **E** / ×) returns to normal play.
+- The vote passes when YES reaches `ceil(percentage × players in game)` (the target counts as a player whose vote is NO, unless `AllowSelfVote` lets them choose), and fails when that can no longer happen or after `General.VoteDurationSeconds`. The count is redone after every vote, every second and after a disconnect. If the target leaves, the vote is cancelled - except a voteban, which goes on (the target's vote still counts) and, if it passes, bans by SteamID with `Ban.OfflineCommand` (default is CS2-SimpleAdmin's `css_addban`).
+- After a vote ends (passed or failed), the same vote type can't target that player for `General.TargetProtectionMinutes`.
+
+**Example config** (`addons/counterstrikesharp/configs/plugins/Playervotes/Playervotes.json`):
 ```json
 {
-  "RequiredVotePercentage": 80,
-  "RequiredPlayers": 2,    // Min players to allow playervotes
-  "ClearVotesOnMapStart": true,
-  "Line": "----------------------------------",
-  "Votemute": true,
-  "PermissionForVoteMute": "",    // "#css/vip" or "@css/vip" for example
-  "MuteDuration": 60,
-  "MuteReason": "Votemuted",
-  "Line2": "----------------------------------",
-  "Voteban": true,
-  "PermissionForVoteBan": "",
-  "BanDuration": 120,
-  "BanReason": "Votebanned",
-  "Line3": "----------------------------------",
-  "Votekick": true,
-  "PermissionForVoteKick": "",
-  "KickReason": "Votekicked",
-  "Line4": "----------------------------------",
-  "Votegag": true,
-  "PermissionForVoteGag": "",
-  "GagDuration": 60,
-  "GagReason": "Votegagged",
-  "Line5": "----------------------------------",
-  "Votesilence": true,
-  "PermissionForVoteSilence": "",
-  "SilenceDuration": 60,
-  "SilenceReason": "Votesilenced",
-  "Line6": "----------------------------------",
-  "VoteImmunity": "@css/vip, @css/vvip",
-  "ConfigVersion": 1
+  "ConfigVersion": 2,
+  "General": {
+    "RequiredPlayers": 2,               // Min players in the game to allow playervotes
+    "DefaultPercentage": 80,            // Used by every vote type whose Percentage is 0
+    "VoteDurationSeconds": 30,
+    "TargetProtectionMinutes": 5,       // Same vote type can't target a player again for this long
+    "AllowSelfVote": false,             // Players may start a vote against themselves and choose freely in it. false = the target's vote counts as NO
+    "VoteImmunity": "@css/vip, @css/vvip",
+    "HideFromMenu": "@css/root, @css/generic"    // "@css/flag" or "#group", comma separated
+  },
+  "Kick": {
+    "Enabled": true,                    // Needs a plugin reload to take effect
+    "Permission": "",                   // "@css/vip" or "#group"; empty = everyone
+    "Percentage": 0,                    // 0 = General.DefaultPercentage
+    "Reason": "Votekicked"
+  },
+  "Ban": {
+    "Enabled": true,
+    "Permission": "",
+    "Percentage": 0,
+    "Duration": 120,                    // Minutes
+    "Reason": "Votebanned",
+    "OfflineCommand": "css_addban {steamid64} {duration} \"{reason}\""    // Target left during a voteban that passed. Empty = cancel the vote when the target leaves
+  },
+  "Mute":    { "Enabled": true, "Permission": "", "Percentage": 0, "Duration": 60, "Reason": "Votemuted" },
+  "Gag":     { "Enabled": true, "Permission": "", "Percentage": 0, "Duration": 60, "Reason": "Votegagged" },
+  "Silence": { "Enabled": true, "Permission": "", "Percentage": 0, "Duration": 60, "Reason": "Votesilenced" },
+  "EnableDebugLogs": false,
+  "EnablePerfMonitor": false,
+  "PerfSlowSectionMs": 2
 }
 ```
+A config from an older version (all settings at the top level) is moved into this layout automatically on load, keeping its values; the old file is saved as `Playervotes.json.v1.bak`.
 
 ---
 
@@ -86,6 +96,8 @@
 | !votekick       | Command for listing players and voting for kick                      | -           |
 | !votegag        | Command for listing players and voting for gag                       | -           |
 | !votesilence    | Command for listing players and voting for silence                   | -           |
+| !yes / !no      | Vote in the current vote (same as the panel buttons)                 | -           |
+| !cancelvote     | Cancel the current vote                                              | @css/generic |
 
 ---
 
